@@ -1,4 +1,4 @@
-local M = {
+return {
     sync_root_with_cwd = true,
     update_focused_file = {
         enable = true,
@@ -66,4 +66,3 @@ local M = {
     },
 }
 
-return M

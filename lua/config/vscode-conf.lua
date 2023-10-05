@@ -1,5 +1,5 @@
 local c = require('vscode.colors').get_colors()
-local config = {
+return {
     -- Alternatively set style in setup
     -- style = 'light'
 
@@ -25,4 +25,3 @@ local config = {
     }
 }
 
-return config

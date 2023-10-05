@@ -1,4 +1,4 @@
-local M = {
+return {
     -- A list of parser names, or "all" (the five listed parsers should always be installed)
     ensure_installed = { "bash", "markdown", "c", "cmake", "lua", "vim", "vimdoc", "query", "cpp", "python" },
 
@@ -23,4 +23,3 @@ local M = {
     },
 }
 
-return M
