@@ -60,7 +60,10 @@ return {
         end,
     },
     -- Clangd Extensions
-    "p00f/clangd_extensions.nvim",
+    {
+        "p00f/clangd_extensions.nvim",
+        lazy = false,
+    },
     -- nvim-tree
     {
         "nvim-tree/nvim-tree.lua",
