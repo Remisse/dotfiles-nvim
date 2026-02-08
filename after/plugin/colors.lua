@@ -1,9 +1,7 @@
-require('vscode').setup(require("config.vscode-conf"))
-
 function SetColorScheme(color)
-    color = color or 'vscode'
+    color = color or 'gruber-darker'
     vim.cmd.colorscheme(color)
 end
 
-SetColorScheme()
+SetColorScheme('gruber-darker')
 

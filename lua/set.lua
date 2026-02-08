@@ -30,3 +30,5 @@ vim.opt.colorcolumn = "120"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
+
+vim.opt.signcolumn = "yes:1"
