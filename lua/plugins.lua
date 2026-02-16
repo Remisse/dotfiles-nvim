@@ -18,8 +18,24 @@ return {
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
+        lazy = false,
         build = ":TSUpdate",
-        lazy = false
+        opts = {
+            ensure_installed = {
+                "bash",
+                "c",
+                "cpp",
+                "html",
+                "json",
+                "lua",
+                "markdown",
+                "markdown_inline",
+                "rust",
+                "toml",
+                "vim",
+                "yaml",
+            },
+        },
     },
     -- Undotree
     {
