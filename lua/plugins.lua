@@ -20,11 +20,25 @@ return {
         "nvim-treesitter/nvim-treesitter",
         lazy = false,
         build = ":TSUpdate",
+        branch = "main",
         opts = {
-            ensure_installed = {
+        },
+        init = function()
+            vim.api.nvim_create_autocmd('FileType', {
+                callback = function()
+                    -- Enable treesitter highlighting and disable regex syntax
+                    pcall(vim.treesitter.start)
+                    -- Enable treesitter-based indentation
+                    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                end
+            })
+
+            local ensure_installed = {
                 "bash",
                 "c",
+                "cmake",
                 "cpp",
+                "csharp",
                 "html",
                 "json",
                 "lua",
@@ -34,8 +48,15 @@ return {
                 "toml",
                 "vim",
                 "yaml",
-            },
-        },
+            }
+            local already_installed = require('nvim-treesitter.config').get_installed()
+            local parsers_to_install = vim.iter(ensure_installed)
+                :filter(function(parser)
+                    return not vim.tbl_contains(already_installed, parser)
+                end)
+                :totable()
+            require('nvim-treesitter').install(parsers_to_install)
+        end,
     },
     -- Undotree
     {
@@ -58,7 +79,7 @@ return {
     },
     {
         'mrcjkb/rustaceanvim',
-        version = '^4', -- Recommended
+        version = '^9',
         lazy = false,   -- This plugin is already lazy
     },
     {
@@ -123,7 +144,7 @@ return {
                 },
                 win = {
                     backdrop = { transparent = false, blend = 99 },
-                    width = 86,
+                    width = 106,
                 },
             },
         },
@@ -132,5 +153,40 @@ return {
         'windwp/nvim-autopairs',
         event = "InsertEnter",
         config = true
-    }
+    },
+    -- From https://github.com/dreamsofcode-io/neovim-cpp
+    {
+        "rcarriga/nvim-dap-ui",
+        event = "VeryLazy",
+        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+        config = function()
+            local dap = require("dap")
+            local dapui = require("dapui")
+            dapui.setup()
+            dap.listeners.after.event_initialized["dapui_config"] = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated["dapui_config"] = function()
+                dapui.close()
+            end
+            dap.listeners.before.event_exited["dapui_config"] = function()
+                dapui.close()
+            end
+        end
+    },
+    {
+        "mfussenegger/nvim-dap",
+        keys = {
+            {
+                "<leader>db",
+                "<cmd>DapToggleBreakpoint<CR>",
+                desc = "Add breakpoint at line"
+            },
+            {
+                "<leader>dr",
+                "<cmd>DapContinue<CR>",
+                desc = "Start or continue the debugger"
+            },
+        },
+    },
 }
